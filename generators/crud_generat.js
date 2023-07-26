@@ -1,4 +1,5 @@
-export const crud_api = (table_name) => {
+
+const crud_api = (table_name) => {
     return `import { db } from '../db.js';
 // Get All Rows
 export const getAll = (req, res) => {

@@ -1,123 +1,156 @@
-import { db } from '../db.js';
+const { db } = require('../db.js');
+
 // Get All Rows
-export const getAll = (req, res) => {
+const getAll = (req, res) => {
     try {
-        const q = `select * from client `;
-db.query(q, (err, data) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).json(data);
-})
+        const q = `SELECT * FROM client`;
+        db.query(q, (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Get Describe
-export const getDescribe = (req, res) => {
+const getDescribe = (req, res) => {
     try {
-        const q = `describe client`;
-    db.query(q, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
+        const q = `DESCRIBE client`;
+        db.query(q, (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Get All Active
-export const getAllActive = (req, res) => {
+const getAllActive = (req, res) => {
     try {
-        const q = `select * from client where client_status = ?`;
-    db.query(q, [1], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
+        const q = `SELECT * FROM client WHERE client_status = ?`;
+        db.query(q, [1], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Get All Desactive
-export const getAllDesactive = (req, res) => {
+const getAllDesactive = (req, res) => {
     try {
-        const q = `select * from client where client_status = ?`;
-    db.query(q, [0], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
+        const q = `SELECT * FROM client WHERE client_status = ?`;
+        db.query(q, [0], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Get One Row
-export const getOne = (req, res) => {
+const getOne = (req, res) => {
     const id = req.params.id;
     try {
-        const q = `select * from client where client_id = ? `;
-    db.query(q, id, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
+        const q = `SELECT * FROM client WHERE id_c = ?`;
+        db.query(q, id, (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Insert Row
-export const postRow = (req, res) => {
+const postRow = (req, res) => {
     const data = req.body;
     try {
-        const q = `insert into client set ? `;
-    db.query(q, data, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`client has been created with successfull!`);
-    })
+        const q = `INSERT INTO client SET ?`;
+        db.query(q, data, (err, data) => {
+            if (err) return res.status(500).send(err);
+              return res.status(201).json(data);
+        });
+
+        
+
+
     } catch (error) {
         console.log(error);
     }
 };
+const getClientById = (id) => {
+    return new Promise((resolve, reject) => {
+        const q = `SELECT * FROM client WHERE id_c = ?`;
+        db.query(q, id, (err, data) => {
+            if (err) reject(err);
+            resolve(data);
+        });
+    });
+};
+
+
 
 // Update Row
-export const updateRow = (req, res) => {
+const updateRow = (req, res) => {
     const id = req.params.id;
     const data = req.body;
     try {
-        const q = `update client set ? where client_id = ? `;
-    db.query(q, [data, id], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`client has been updated with successfull!`);
-    })
+        const q = `UPDATE client SET ? WHERE id_c = ?`;
+        db.query(q, [data, id], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(201).json(`Client has been updated successfully!`);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
-// desactive Row
-export const deleteRow = (req, res) => {
+
+
+// Desactive Row
+const deleteRow = (req, res) => {
     const id = req.params.id;
     try {
-        const q = `update client set client_status = ? where client_id = ? `;
-    db.query(q, ['0', id], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`client has been deleted with successfull!`);
-    })
+        const q = `UPDATE client SET client_status = ? WHERE id_c = ?`;
+        db.query(q, ['0', id], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(201).json(`Client has been deleted successfully!`);
+        });
     } catch (error) {
         console.log(error);
     }
 };
+
+
 
 // Active Row
-export const recoverRow = (req, res) => {
+const recoverRow = (req, res) => {
     const id = req.params.id;
     try {
-        const q = `update client set client_status = ? where client_id = ? `;
-    db.query(q, ['1', id], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`client has been recovred with successfull!`);
-    })
+        const q = `UPDATE client SET client_status = ? WHERE id_c = ?`;
+        db.query(q, ['1', id], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(201).json(`Client has been recovered successfully!`);
+        });
     } catch (error) {
         console.log(error);
     }
+};
+
+module.exports = {
+    getAll,
+    getDescribe,
+    getAllActive,
+    getAllDesactive,
+    getClientById,
+    getOne,
+    postRow,
+    updateRow,
+    deleteRow,
+    recoverRow,
 };

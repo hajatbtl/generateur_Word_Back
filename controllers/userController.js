@@ -1,123 +1,150 @@
-import { db } from '../db.js';
+const { db } = require('../db.js');
+
 // Get All Rows
-export const getAll = (req, res) => {
-    try {
-        const q = `select * from user `;
-db.query(q, (err, data) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).json(data);
-})
-    } catch (error) {
-        console.log(error);
-    }
+const getAll = (req, res) => {
+  try {
+    const q = `SELECT * FROM user`;
+    db.query(q, (err, data) => {
+      if (err) return res.status(500).send(err);
+      return res.status(200).json(data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Get Describe
-export const getDescribe = (req, res) => {
-    try {
-        const q = `describe user`;
+const getDescribe = (req, res) => {
+  try {
+    const q = `DESCRIBE user`;
     db.query(q, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
-    } catch (error) {
-        console.log(error);
-    }
+      if (err) return res.status(500).send(err);
+      return res.status(200).json(data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Get All Active
-export const getAllActive = (req, res) => {
-    try {
-        const q = `select * from user where user_status = ?`;
+const getAllActive = (req, res) => {
+  try {
+    const q = `SELECT * FROM user WHERE user_status = ?`;
     db.query(q, [1], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
-    } catch (error) {
-        console.log(error);
-    }
+      if (err) return res.status(500).send(err);
+      return res.status(200).json(data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Get All Desactive
-export const getAllDesactive = (req, res) => {
-    try {
-        const q = `select * from user where user_status = ?`;
+const getAllDesactive = (req, res) => {
+  try {
+    const q = `SELECT * FROM user WHERE user_status = ?`;
     db.query(q, [0], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
-    } catch (error) {
-        console.log(error);
-    }
+      if (err) return res.status(500).send(err);
+      return res.status(200).json(data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Get One Row
-export const getOne = (req, res) => {
-    const id = req.params.id;
-    try {
-        const q = `select * from user where id_u = ? `;
+const getOne = (req, res) => {
+  const id = req.params.id;
+  try {
+    const q = `SELECT * FROM user WHERE id_u = ?`;
     db.query(q, id, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
-    } catch (error) {
-        console.log(error);
-    }
+      if (err) return res.status(500).send(err);
+      return res.status(200).json(data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
+
 
 // Insert Row
-export const postRow = (req, res) => {
-    const data = req.body;
-    try {
-        const q = `insert into user set ? `;
+const postRow = (req, res) => {
+  const data = req.body;
+  try {
+    const q = `INSERT INTO user SET ?`;
     db.query(q, data, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`user has been created with successfull!`);
-    })
-    } catch (error) {
-        console.log(error);
-    }
+      if (err) return res.status(500).send(err);
+      return res.status(201).json(`user has been created with successfull!`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+const getUserById = (id) => {
+  return new Promise((resolve, reject) => {
+    const q = `SELECT * FROM devis WHERE id_u = ?`;
+    db.query(q, id, (err, data) => {
+      if (err) reject(err);
+      resolve(data);
+    });
+  });
+};
+
 
 // Update Row
-export const updateRow = (req, res) => {
-    const id = req.params.id;
-    const data = req.body;
-    try {
-        const q = `update user set ? where id_u = ? `;
+const updateRow = (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+  try {
+    const q = `UPDATE user SET ? WHERE id_u = ?`;
     db.query(q, [data, id], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`user has been updated with successfull!`);
-    })
-    } catch (error) {
-        console.log(error);
-    }
+      if (err) return res.status(500).send(err);
+      return res.status(201).json(`user has been updated with successfull!`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-// desactive Row
-export const deleteRow = (req, res) => {
-    const id = req.params.id;
-    try {
-        const q = `update user set user_status = ? where id_u = ? `;
+// Desactive Row
+const deleteRow = (req, res) => {
+  const id = req.params.id;
+  try {
+    const q = `UPDATE user SET user_status = ? WHERE id_u = ?`;
     db.query(q, ['0', id], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`user has been deleted with successfull!`);
-    })
-    } catch (error) {
-        console.log(error);
-    }
+      if (err) return res.status(500).send(err);
+      return res.status(201).json(`user has been deleted with successfull!`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Active Row
-export const recoverRow = (req, res) => {
-    const id = req.params.id;
-    try {
-        const q = `update user set user_status = ? where id_u = ? `;
+const recoverRow = (req, res) => {
+  const id = req.params.id;
+  try {
+    const q = `UPDATE user SET user_status = ? WHERE id_u = ?`;
     db.query(q, ['1', id], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`user has been recovred with successfull!`);
-    })
-    } catch (error) {
-        console.log(error);
-    }
+      if (err) return res.status(500).send(err);
+      return res.status(201).json(`user has been recovered with successfull!`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+module.exports = {
+  getAll,
+  getDescribe,
+  getAllActive,
+  getAllDesactive,
+  getOne,
+  postRow,
+  updateRow,
+  deleteRow,
+  recoverRow,
+  getUserById,
+};
+

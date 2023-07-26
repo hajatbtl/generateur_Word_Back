@@ -1,11 +1,10 @@
-
-import express from 'express';
-// import bodyParser from 'body-parser';
+const express = require('express');
+// const bodyParser = require('body-parser');
 
 const router = express.Router();
 // router.use(bodyParser.urlencoded({ extended: true }));
 // router.use(bodyParser.json());
-import { getAll, getOne, postRow, deleteRow, recoverRow, updateRow, getAllActive, getAllDesactive, getDescribe } from '../controllers/prestationController.js';
+const { getAll, getOne, postRow, deleteRow, recoverRow, updateRow, getAllActive, getAllDesactive, getDescribe } = require('../controllers/prestationController.js');
 
 router.get("/", getAll);
 router.get("/describe", getDescribe);
@@ -16,4 +15,4 @@ router.post("/add", postRow);
 router.delete("/delete/:id", deleteRow);
 router.put("/recover/:id", recoverRow);
 router.put("/update/:id", updateRow);
-export default router;
+module.exports = router;

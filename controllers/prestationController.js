@@ -1,134 +1,136 @@
-import { db } from '../db.js';
+const { db } = require('../db.js');
+
 // Get All Rows
-export const getAll = (req, res) => {
+const getAll = (req, res) => {
     try {
         const q = `select * from prestation `;
-db.query(q, (err, data) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).json(data);
-})
+        db.query(q, (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Get Describe
-export const getDescribe = (req, res) => {
+const getDescribe = (req, res) => {
     try {
         const q = `describe prestation`;
-    db.query(q, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
+        db.query(q, (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Get All Active
-export const getAllActive = (req, res) => {
+const getAllActive = (req, res) => {
     try {
         const q = `select * from prestation where prestation_status = ?`;
-    db.query(q, [1], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
+        db.query(q, [1], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Get All Desactive
-export const getAllDesactive = (req, res) => {
+const getAllDesactive = (req, res) => {
     try {
         const q = `select * from prestation where prestation_status = ?`;
-    db.query(q, [0], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
+        db.query(q, [0], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Get One Row
-export const getOne = (req, res) => {
+const getOne = (req, res) => {
     const id = req.params.id;
     try {
         const q = `select * from prestation where id_p = ? `;
-    db.query(q, id, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).json(data);
-    })
+        db.query(q, id, (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(200).json(data);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Insert Row
-export const postRow = (req, res) => {
+const postRow = (req, res) => {
     const data = req.body;
     try {
         const q = `insert into prestation set ? `;
-    db.query(q, data, (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`prestation has been created with successfull!`);
-    })
+        db.query(q, data, (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(201).json(`prestation has been created with success!`);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Update Row
-export const updateRow = (req, res) => {
+const updateRow = (req, res) => {
     const id = req.params.id;
     const data = req.body;
     try {
         const q = `update prestation set ? where id_p = ? `;
-    db.query(q, [data, id], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`prestation has been updated with successfull!`);
-    })
+        db.query(q, [data, id], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(201).json(`prestation has been updated with success!`);
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
-// desactive Row
-export const deleteRow = (req, res) => {
+// Desactive Row
+const deleteRow = (req, res) => {
     const id = req.params.id;
     try {
-        const q = `DELETE FROM prestation where id_p = ? `;
-    db.query(q, [id], (err, data) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        if (res.affectedRows == 0) {
-            // not found Tutorial with the id
-            result({ kind: "not_found" }, null);
-            return;
-        }
-
-        console.log("deleted tutorial with id: ", id);
-        result(null, res); })
+        const q = 'DELETE FROM prestation WHERE id_p = ?';
+        db.query(q, id, (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(201).json('Prestation has been deleted successfully!');
+        });
     } catch (error) {
         console.log(error);
     }
 };
 
 // Active Row
-export const recoverRow = (req, res) => {
+const recoverRow = (req, res) => {
     const id = req.params.id;
     try {
         const q = `update prestation set prestation_status = ? where id_p = ? `;
-    db.query(q, ['1', id], (err, data) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).json(`prestation has been recovred with successfull!`);
-    })
+        db.query(q, ['1', id], (err, data) => {
+            if (err) return res.status(500).send(err);
+            return res.status(201).json(`prestation has been recovered with success!`);
+        });
     } catch (error) {
         console.log(error);
     }
+};
+
+module.exports = {
+    getAll,
+    getDescribe,
+    getAllActive,
+    getAllDesactive,
+    getOne,
+    postRow,
+    updateRow,
+    deleteRow,
+    recoverRow,
 };

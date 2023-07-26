@@ -1,28 +1,58 @@
-import express from "express";
-import cors from 'cors';
-import generatorRoutes from "./routes/generator.js";
-import multer from "multer";
-import fse from "fs-extra";
+const express = require("express");
+const cors = require('cors');
+//const generatorRoutes = require("./routes/generator.js");
+const multer = require("multer");
+const fse = require("fs-extra");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/generator/', generatorRoutes);
-//
-app.listen(8800, () => {
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './upload')
+      // cb(null, '/var/www/vhzosts/boring-hermann.212-227-197-242.plesk.page/httpdocs/front/build/upload')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + file.originalname) 
+    }
+  });
+  
+  const upload = multer({ storage });
+
+  app.post('/api/upload', upload.single('file'), function (req, res, next) {
+    const file = req.file;
+    res.status(200).json(file.filename);
+  })
+
+
+//app.use('/api/generator/', generatorRoutes);
+
+
+app.listen(5000, () => {
     console.log("backend connected!");
 });
 
-import devisRoutes from "./routes/devis.js";
+const devisRoutes = require("./routes/devis.js");
 app.use(`/api/devis/`, devisRoutes);
-import prestationRoutes from "./routes/prestation.js";
+
+const prestationRoutes = require("./routes/prestation.js");
 app.use(`/api/prestation/`, prestationRoutes);
 
-import auth from "./routes/auth.js";
+const notatsRoutes = require("./routes/notats.js");
+app.use(`/api/notats/`, notatsRoutes);
+
+const auth = require("./routes/auth.js");
 app.use("/api/auth/", auth);
-import clientRoutes from "./routes/client.js";
+
+const devisWithPrestation = require("./routes/devisWithPrestation.js");
+app.use("/api/devisWithPrestation/", devisWithPrestation);
+
+const devisWithNotats = require("./routes/devisWithNotats.js");
+app.use("/api/devisWithNotats/", devisWithNotats);
+
+const clientRoutes = require("./routes/client.js");
 app.use(`/api/client/`, clientRoutes);
-    import userRoutes from "./routes/user.js";
-    app.use(`/api/user/`, userRoutes);
-    
+
+const userRoutes = require("./routes/user.js");
+app.use(`/api/user/`, userRoutes);

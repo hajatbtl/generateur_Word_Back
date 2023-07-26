@@ -1,7 +1,7 @@
-import express from 'express';
-import CryptoJS from "crypto-js";
-import jwt from "jsonwebtoken";
-import { db } from "../db.js";
+const express = require('express');
+const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
+const { db } = require("../db.js");
 const router = express.Router();
 
 // Login
@@ -41,4 +41,4 @@ router.post("/login", async (req, res) => {
     });
 });
 
-export default router;
+module.exports = router;

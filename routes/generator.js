@@ -1,6 +1,6 @@
-import express from "express";
-import { generateApi } from "../controllers/GeneratorController.js";
+const express = require("express");
+const { generateApi } = require("../controllers/GeneratorController.js");
 
 const router = express.Router();
 router.get('/:table', generateApi);
-export default router;
+module.exports = router;
