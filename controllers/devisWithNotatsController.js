@@ -93,6 +93,15 @@ const getNotatsByIdDevis = (id) => {
     });
   });
 };
+const deleteNotatsByIdDevis = (id) => {
+  return new Promise((resolve, reject) => {
+    const q = `DELETE FROM devisWithNotats WHERE id_d = ?`;
+    db.query(q, [id], (err, result) => {
+      if (err) reject(err);
+      resolve(result); // Check if rows were affected (deleted)
+    });
+  });
+};
 
 
 // Insert Row
@@ -162,5 +171,6 @@ module.exports = {
   updateRow,
   deleteRow,
   recoverRow,
+  deleteNotatsByIdDevis,
 };
 

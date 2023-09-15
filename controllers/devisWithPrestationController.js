@@ -147,10 +147,19 @@ const getPrestationByIdDevis = (id) => {
     });
   });
 };
+const deletePrestationByIdDevis = (id) => {
+  return new Promise((resolve, reject) => {
+    const q = `DELETE FROM devisWithPrestation WHERE id_d = ?`;
+    db.query(q, [id], (err, result) => {
+      if (err) reject(err);
+      resolve(result); // Check if rows were affected (deleted)
+    });
+  });
+};
 
 
 module.exports = {
-  getAll,
+  getAll,deletePrestationByIdDevis,
   getDescribe,
   getAllActive,
   getPrestationByIdDevis,

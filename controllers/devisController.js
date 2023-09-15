@@ -88,7 +88,15 @@ const getDevisById = (id) => {
         });
     });
 };
-
+const deleteDevisById = (id) => {
+    return new Promise((resolve, reject) => {
+      const q = `DELETE FROM devis WHERE id_d = ?`;
+      db.query(q, [id], (err, result) => {
+        if (err) reject(err);
+        resolve(result.affectedRows > 0); // Check if a row was affected (deleted)
+      });
+    });
+  };
 // Insert Row
 const postRow = (req, res) => {
     const data = req.body;
@@ -292,7 +300,7 @@ module.exports = {
     deleteRow,
     recoverRow,
     getreff,
-    getDevisWithClient, updateDevisWithClient
+    getDevisWithClient, updateDevisWithClient,deleteDevisById
 };
 
 

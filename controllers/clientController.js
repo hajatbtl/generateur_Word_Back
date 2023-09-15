@@ -92,6 +92,15 @@ const getClientById = (id) => {
         });
     });
 };
+const deleteClientById = (id) => {
+    return new Promise((resolve, reject) => {
+      const q = `DELETE FROM devis WHERE id_c = ?`;
+      db.query(q, [id], (err, result) => {
+        if (err) reject(err);
+        resolve(result.affectedRows > 0); // Check if a row was affected (deleted)
+      });
+    });
+  };
 
 
 
@@ -152,5 +161,5 @@ module.exports = {
     postRow,
     updateRow,
     deleteRow,
-    recoverRow,
+    recoverRow,deleteClientById
 };

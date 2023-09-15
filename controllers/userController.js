@@ -91,7 +91,15 @@ const getUserById = (id) => {
   });
 };
 
-
+const deleteUserById = (id) => {
+  return new Promise((resolve, reject) => {
+    const q = `DELETE FROM user WHERE id_u = ?`;
+    db.query(q, [id], (err, result) => {
+      if (err) reject(err);
+      resolve(result.affectedRows > 0); // Check if a row was affected (deleted)
+    });
+  });
+};
 // Update Row
 const updateRow = (req, res) => {
   const id = req.params.id;
@@ -145,6 +153,6 @@ module.exports = {
   updateRow,
   deleteRow,
   recoverRow,
-  getUserById,
+  getUserById,deleteUserById
 };
 
