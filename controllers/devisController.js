@@ -90,7 +90,7 @@ const getDevisById = (id) => {
 };
 const deleteDevisById = (id) => {
     return new Promise((resolve, reject) => {
-      const q = `DELETE FROM devis WHERE id_d = ?`;
+      const q = `DELETE FROM devis WHERE id = ?`;
       db.query(q, [id], (err, result) => {
         if (err) reject(err);
         resolve(result.affectedRows > 0); // Check if a row was affected (deleted)
@@ -300,7 +300,7 @@ module.exports = {
     deleteRow,
     recoverRow,
     getreff,
-    getDevisWithClient, updateDevisWithClient,deleteDevisById
+    getDevisWithClient, updateDevisWithClient,
 };
 
 
