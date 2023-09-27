@@ -90,13 +90,13 @@ const getDevisById = (id) => {
 };
 const deleteDevisById = (id) => {
     return new Promise((resolve, reject) => {
-      const q = `DELETE FROM devis WHERE id = ?`;
-      db.query(q, [id], (err, result) => {
-        if (err) reject(err);
-        resolve(result.affectedRows > 0); // Check if a row was affected (deleted)
-      });
+        const q = `DELETE FROM devis WHERE id = ?`;
+        db.query(q, [id], (err, result) => {
+            if (err) reject(err);
+            resolve(result.affectedRows > 0); // Check if a row was affected (deleted)
+        });
     });
-  };
+};
 // Insert Row
 const postRow = (req, res) => {
     const data = req.body;
@@ -129,14 +129,25 @@ const updateRow = (req, res) => {
 };
 
 // Desactive Row
-const deleteRow = (req, res) => {
+const deleteRow = async (req, res) => {
     const id = req.params.id;
     try {
-        const q = `UPDATE devis SET devis_status = ? WHERE id_d = ?`;
-        db.query(q, ['0', id], (err, data) => {
-            if (err) return res.status(500).send(err);
-            return res.status(201).json(`Devis has been deleted successfully!`);
-        });
+        db.beginTransaction();
+
+        const q1 = 'DELETE FROM deviswithnotats WHERE id_d = ?';
+        const q2 = 'DELETE FROM deviswithprestation WHERE id_d = ?';
+        const q3 = 'DELETE FROM client WHERE id_c = ?';
+        const q4 = 'DELETE FROM devis WHERE id_d = ?';
+
+        db.query(q1, [id]);
+        db.query(q2, [id]);
+        db.query(q3, [id]);
+        db.query(q4, [id]);
+
+        db.commit();
+
+        return res.status(201).json(`Devis has been deleted successfully!`);
+
     } catch (error) {
         console.log(error);
     }

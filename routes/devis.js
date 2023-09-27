@@ -20,7 +20,7 @@ router.get("/active", getAllActive);
 router.get("/desactive", getAllDesactive);
 router.get("/:id", getOne);
 router.post("/add", postRow);
-router.put("/delete/:id", deleteRow);
+router.delete("/delete/:id", deleteRow);
 router.put("/recover/:id", recoverRow);
 router.put("/update/:id", updateRow);
 
@@ -47,6 +47,7 @@ router.get("/devisall/:id", async (req, res) => {
     let prestation = await getPrestationByIdDevis(id);
     let notats = await getNotatsByIdDevis(id);
 
+    console.log(client)
     return res.status(200).json({
         devis: devis[0],    
         user: user[0],

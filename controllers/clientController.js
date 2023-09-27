@@ -85,7 +85,7 @@ const postRow = (req, res) => {
 };
 const getClientById = (id) => {
     return new Promise((resolve, reject) => {
-        const q = `SELECT * FROM client WHERE id_c = ?`;
+        const q = `SELECT * FROM client WHERE id_c = (SELECT id_c from devis where id_d = ?)`;
         db.query(q, id, (err, data) => {
             if (err) reject(err);
             resolve(data);
