@@ -136,7 +136,7 @@ const deleteRow = async (req, res) => {
 
         const q1 = 'DELETE FROM deviswithnotats WHERE id_d = ?';
         const q2 = 'DELETE FROM deviswithprestation WHERE id_d = ?';
-        const q3 = 'DELETE FROM client WHERE id_c = ?';
+        const q3 = 'DELETE FROM client WHERE id_c = (SELECT id_c from devis where id_d = ?)';
         const q4 = 'DELETE FROM devis WHERE id_d = ?';
 
         db.query(q1, [id]);
