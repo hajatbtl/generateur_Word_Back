@@ -202,7 +202,6 @@ const getreff = (req, res) => {
 };
 
 
-
 // Active Row
 const recoverRow = (req, res) => {
     const id = req.params.id;
@@ -215,7 +214,6 @@ const recoverRow = (req, res) => {
     } catch (error) {
         console.log(error);
     }
-
 
 };
 
@@ -258,6 +256,7 @@ const updateDevisWithClient = (req, res) => {
         const query = `UPDATE devis 
                      JOIN client ON devis.id_c = client.id_c 
                      SET devis.date = ?, devis.reference = ?,devis.nom_inter=?,devis.prenom_inter=?,devis.mail_inter=?,devis.tel_inter=?,
+                     devis.prerequis= ?,devis.visite= ?,devis.mission_dec= ?,devis.preavis= ?,devis.accompte= ?,
                       client.nom_c = ?, client.adresse = ?, client.tel = ?, 
                          client.mail = ?, client.adressef = ?, client.mission = ?, client.nom = ?, client.prenom = ?, 
                          client.image = ?
@@ -269,6 +268,11 @@ const updateDevisWithClient = (req, res) => {
             updatedData.prenom_inter,
             updatedData.mail_inter,
             updatedData.tel_inter,
+            updatedData.prerequis,
+            updatedData.visite,
+            updatedData.mission_dec,
+            updatedData.preavis,
+            updatedData.accompte,
             updatedData.nom_c,
             updatedData.adresse,
             updatedData.tel,
