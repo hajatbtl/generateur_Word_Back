@@ -255,14 +255,16 @@ const updateDevisWithClient = (req, res) => {
     try {
         const query = `UPDATE devis 
                      JOIN client ON devis.id_c = client.id_c 
-                     SET devis.date = ?, devis.reference = ?,devis.nom_inter=?,devis.prenom_inter=?,devis.mail_inter=?,devis.tel_inter=?,
-                     devis.prerequis= ?,devis.visite= ?,devis.mission_dec= ?,devis.preavis= ?,devis.accompte= ?,
-                      client.nom_c = ?, client.adresse = ?, client.tel = ?, 
+                     SET devis.date = ?,devis.titre_d = ?, devis.reference = ?,devis.nom_inter=?,devis.prenom_inter=?,devis.mail_inter=?,devis.tel_inter=?,
+                     devis.prerequis= ?,devis.visite= ?,devis.mission_dec= ?,devis.preavis= ?,devis.accompte= ?,devis.has_prevue= ?,devis.has_visite= ?,
+                     devis.notation= ?,devis.objet_mission= ?,
+                     client.nom_c = ?, client.adresse = ?, client.tel = ?, 
                          client.mail = ?, client.adressef = ?, client.mission = ?, client.nom = ?, client.prenom = ?, 
                          client.image = ?
                      WHERE devis.id_d = ?`;
         const values = [
             updatedData.date,
+            updatedData.titre_d,
             updatedData.reference,
             updatedData.nom_inter,
             updatedData.prenom_inter,
@@ -273,6 +275,10 @@ const updateDevisWithClient = (req, res) => {
             updatedData.mission_dec,
             updatedData.preavis,
             updatedData.accompte,
+            updatedData.has_prevue,
+            updatedData.has_visite,
+            updatedData.notation,
+            updatedData.objet_mission,
             updatedData.nom_c,
             updatedData.adresse,
             updatedData.tel,
